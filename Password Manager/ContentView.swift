@@ -19,6 +19,8 @@ struct ContentView: View {
     @State var userWantsSpoken = false
     @State var findPasswordSpoken = false
     @State var addPasswordSpoken = false
+    @State var addPasswordEmail = ""
+    @State var addPasswordPassword = ""
     
     var body: some View {
         ZStack {
@@ -143,6 +145,7 @@ struct ContentView: View {
             
             if addPasswordSpoken == true {
                 speakText(voiceOutdata: "What is your email address for \(spokenText)?")
+                
             }
             
         }
