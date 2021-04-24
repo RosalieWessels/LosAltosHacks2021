@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -14,6 +14,10 @@
 		110FEA0026346ACD00A78B92 /* Password_ManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110FE9FF26346ACD00A78B92 /* Password_ManagerTests.swift */; };
 		110FEA0B26346ACD00A78B92 /* Password_ManagerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110FEA0A26346ACD00A78B92 /* Password_ManagerUITests.swift */; };
 		110FEA1C26346E5E00A78B92 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 110FEA1B26346E5E00A78B92 /* GoogleService-Info.plist */; };
+		110FEA8226348B0F00A78B92 /* LogInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110FEA8126348B0F00A78B92 /* LogInView.swift */; };
+		110FEA8726348B9A00A78B92 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110FEA8626348B9A00A78B92 /* SignUpView.swift */; };
+		110FEAA526348E5200A78B92 /* OnBoardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110FEAA426348E5200A78B92 /* OnBoardingView.swift */; };
+		110FEAAE2634997200A78B92 /* SwiftSpeech in Frameworks */ = {isa = PBXBuildFile; productRef = 110FEAAD2634997200A78B92 /* SwiftSpeech */; };
 		2035A2A0EB7AED14E449B54A /* Pods_Password_ManagerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F9E0782A56813D05E9B6D21 /* Pods_Password_ManagerTests.framework */; };
 		35938466ADAE57EBA0E2D1F7 /* Pods_Password_Manager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63764E10413F64852EAFCA1B /* Pods_Password_Manager.framework */; };
 		5CA2E9900F684BED122966B0 /* Pods_Password_Manager_Password_ManagerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91B740876E91CD2D279EA744 /* Pods_Password_Manager_Password_ManagerUITests.framework */; };
@@ -50,6 +54,9 @@
 		110FEA0A26346ACD00A78B92 /* Password_ManagerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Password_ManagerUITests.swift; sourceTree = "<group>"; };
 		110FEA0C26346ACD00A78B92 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		110FEA1B26346E5E00A78B92 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		110FEA8126348B0F00A78B92 /* LogInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInView.swift; sourceTree = "<group>"; };
+		110FEA8626348B9A00A78B92 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
+		110FEAA426348E5200A78B92 /* OnBoardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingView.swift; sourceTree = "<group>"; };
 		13F224EF2B729D57A8AE8D74 /* Pods-Password ManagerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Password ManagerTests.release.xcconfig"; path = "Target Support Files/Pods-Password ManagerTests/Pods-Password ManagerTests.release.xcconfig"; sourceTree = "<group>"; };
 		2B1B752434FBED6B86A8A173 /* Pods-Password Manager.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Password Manager.debug.xcconfig"; path = "Target Support Files/Pods-Password Manager/Pods-Password Manager.debug.xcconfig"; sourceTree = "<group>"; };
 		2C72CA2062A5275ACEC6BF95 /* Pods-Password Manager.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Password Manager.release.xcconfig"; path = "Target Support Files/Pods-Password Manager/Pods-Password Manager.release.xcconfig"; sourceTree = "<group>"; };
@@ -66,6 +73,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				110FEAAE2634997200A78B92 /* SwiftSpeech in Frameworks */,
 				35938466ADAE57EBA0E2D1F7 /* Pods_Password_Manager.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -115,6 +123,9 @@
 			isa = PBXGroup;
 			children = (
 				110FE9ED26346ACB00A78B92 /* Password_ManagerApp.swift */,
+				110FEAA426348E5200A78B92 /* OnBoardingView.swift */,
+				110FEA8126348B0F00A78B92 /* LogInView.swift */,
+				110FEA8626348B9A00A78B92 /* SignUpView.swift */,
 				110FE9EF26346ACB00A78B92 /* ContentView.swift */,
 				110FE9F126346ACD00A78B92 /* Assets.xcassets */,
 				110FE9F626346ACD00A78B92 /* Info.plist */,
@@ -160,7 +171,6 @@
 				2DE156F3F14669C0119A1A84 /* Pods-Password ManagerTests.debug.xcconfig */,
 				13F224EF2B729D57A8AE8D74 /* Pods-Password ManagerTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -192,6 +202,9 @@
 			dependencies = (
 			);
 			name = "Password Manager";
+			packageProductDependencies = (
+				110FEAAD2634997200A78B92 /* SwiftSpeech */,
+			);
 			productName = "Password Manager";
 			productReference = 110FE9EA26346ACB00A78B92 /* Password Manager.app */;
 			productType = "com.apple.product-type.application";
@@ -266,6 +279,9 @@
 				Base,
 			);
 			mainGroup = 110FE9E126346ACB00A78B92;
+			packageReferences = (
+				110FEAAC2634997200A78B92 /* XCRemoteSwiftPackageReference "SwiftSpeech" */,
+			);
 			productRefGroup = 110FE9EB26346ACB00A78B92 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -412,7 +428,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				110FEA8726348B9A00A78B92 /* SignUpView.swift in Sources */,
+				110FEA8226348B0F00A78B92 /* LogInView.swift in Sources */,
 				110FE9F026346ACB00A78B92 /* ContentView.swift in Sources */,
+				110FEAA526348E5200A78B92 /* OnBoardingView.swift in Sources */,
 				110FE9EE26346ACB00A78B92 /* Password_ManagerApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -573,6 +592,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Password Manager/Preview Content\"";
+				DEVELOPMENT_TEAM = JXATX5P8FC;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "Password Manager/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -580,7 +600,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.RosalieWessels.Password-Manager";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.RosalieWessels.Password-ManagerLAHS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -595,6 +615,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Password Manager/Preview Content\"";
+				DEVELOPMENT_TEAM = JXATX5P8FC;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "Password Manager/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -602,7 +623,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.RosalieWessels.Password-Manager";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.RosalieWessels.Password-ManagerLAHS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -733,6 +754,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		110FEAAC2634997200A78B92 /* XCRemoteSwiftPackageReference "SwiftSpeech" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Cay-Zhang/SwiftSpeech.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.9.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		110FEAAD2634997200A78B92 /* SwiftSpeech */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 110FEAAC2634997200A78B92 /* XCRemoteSwiftPackageReference "SwiftSpeech" */;
+			productName = SwiftSpeech;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 110FE9E226346ACB00A78B92 /* Project object */;
 }

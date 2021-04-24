@@ -6,9 +6,19 @@
 //
 
 import SwiftUI
+import Firebase
+import SwiftSpeech
+import AVFoundation
 
 struct ContentView: View {
     
+    @StateObject var model = ModelData()
+    @State var user = Auth.auth().currentUser
+    @State var spokenText = ""
+    
+    @State var userWantsSpoken = false
+    @State var findPasswordSpoken = false
+    @State var addPasswordSpoken = false
     
     var body: some View {
         ZStack {
@@ -36,7 +46,20 @@ struct ContentView: View {
                                 Card()
                                 
                                 Card()
+                                
+                                Text(spokenText)
+                                
                             }
+                            
+                            Button(action: model.logOut) {
+                                Text("Log out")
+                                    .foregroundColor(.black)
+                                    .fontWeight(.heavy)
+                            }
+                            .padding()
+                            .background(Color.white)
+                            .cornerRadius(25)
+                            .shadow(radius:3)
                             
                             
                             
@@ -46,12 +69,123 @@ struct ContentView: View {
                         
                     }
                 }
-                TabBar()
+                
+                //Tab Bar
+                if userWantsSpoken == false {
+                    Button(action: {
+                        startSpeechRecognition()
+                    }) {
+                        HStack {
+                            Spacer()
+                            Image(systemName: "waveform.circle")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .foregroundColor(.white)
+                                .padding(25)
+                                .frame(maxHeight: 96)
+                            Spacer()
+                        }
+                    }
+                    .background(
+                        RoundedCorners(color: Color("gray"), tl: 12, tr: 12, bl: 0, br: 0)
+                            .edgesIgnoringSafeArea(.bottom)
+                    )
+                }
+                else {
+                    HStack {
+                        Spacer()
+                        
+                        SwiftSpeech.RecordButton()
+                            .swiftSpeechRecordOnHold()
+                            .onRecognizeLatest(update: $spokenText)
+                            .onStopRecording(appendAction: interpretResults)
+                            .padding(25)
+                            .frame(maxHeight: 96)
+                        
+                        Spacer()
+                    }
+                    .background(
+                        RoundedCorners(color: Color("gray"), tl: 12, tr: 12, bl: 0, br: 0)
+                            .edgesIgnoringSafeArea(.bottom)
+                    )
+                }
+                
+                
+                
             }
             
         }
+        .onAppear {
+            SwiftSpeech.requestSpeechRecognitionAuthorization()
+        }
     }
     
+    func startSpeechRecognition() {
+        userWantsSpoken = true
+        
+        
+        speakText(voiceOutdata: "Welcome, do you want to add a new password or find a password?")
+        
+    }
+    
+    func interpretResults(sesson: SwiftSpeech.Session) {
+        let seconds = 1.0
+        DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
+            if spokenText == "Find a password" || spokenText == "Find password" {
+                speakText(voiceOutdata: "Great! Let's find a password")
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+                    speakText(voiceOutdata: "Which companies's password do you want to find?")
+                    findPasswordSpoken = true
+                }
+            }
+            if spokenText == "Add a new password" || spokenText == "Add new password" || spokenText == "Add password" || spokenText == "Add a password" {
+                speakText(voiceOutdata: "All right dude. Let's add a new password.")
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+                    speakText(voiceOutdata: "What companies's password do you want to add?")
+                    addPasswordSpoken = true
+                }
+                
+            }
+            
+            if findPasswordSpoken == true {
+                speakText(voiceOutdata: "Finding your password for \(spokenText)")
+            }
+            
+            if addPasswordSpoken == true {
+                speakText(voiceOutdata: "What is your email address for \(spokenText)?")
+            }
+            
+        }
+        
+    }
+    
+    //speakText from https://stackoverflow.com/questions/53009032/avspeechsynthesizer-is-not-working-after-use-one-time
+    func speakText(voiceOutdata: String ) {
+        do {
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playAndRecord, mode: .default, options: .defaultToSpeaker)
+            try AVAudioSession.sharedInstance().setActive(true, options: .notifyOthersOnDeactivation)
+        } catch {
+            print("audioSession properties weren't set because of an error.")
+        }
+
+        let utterance = AVSpeechUtterance(string: voiceOutdata)
+        utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
+
+        let synth = AVSpeechSynthesizer()
+        synth.speak(utterance)
+
+        defer {
+            disableAVSession()
+        }
+    }
+
+    private func disableAVSession() {
+        do {
+            try AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
+        } catch {
+            print("audioSession properties weren't disable.")
+        }
+    }
 }
 
 struct ContentView_Previews: PreviewProvider {
@@ -229,27 +363,6 @@ struct Card: View {
         .padding(.bottom, 25)
         .background(Color("gray"))
         .cornerRadius(25)
-    }
-}
-
-struct TabBar: View {
-    var body: some View {
-        Button(action: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Action@*/{}/*@END_MENU_TOKEN@*/) {
-            HStack {
-                Spacer()
-                Image(systemName: "waveform.circle")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .foregroundColor(.white)
-                    .padding(25)
-                    .frame(maxHeight: 96)
-                Spacer()
-            }
-        }
-        .background(
-            RoundedCorners(color: Color("gray"), tl: 12, tr: 12, bl: 0, br: 0)
-                .edgesIgnoringSafeArea(.bottom)
-        )
     }
 }
 
