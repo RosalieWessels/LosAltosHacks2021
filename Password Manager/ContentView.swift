@@ -28,17 +28,7 @@ struct ContentView: View {
                 ScrollView {
                     VStack (spacing: 0) {
                         
-                        ScrollView (.horizontal, showsIndicators: false) {
-                            HStack (spacing: 19){
-                                HStackCard(image: "1_card")
-
-                                HStackCard(image: "2_card")
-
-                                HStackCard(image: "3_card")
-                            }
-                            .padding(.horizontal, 25)
-                        }
-                        .padding(.top, 25)
+                        
                         
                         ScrollView (.vertical, showsIndicators: false) {
                             
@@ -194,16 +184,7 @@ struct ContentView_Previews: PreviewProvider {
     }
 }
 
-struct HStackCard: View {
-    @State var image : String
-    var body: some View {
-        Image(image)
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-            .frame(maxWidth: UIScreen.main.bounds.width - 230, maxHeight: 200)
-            .cornerRadius(12)
-    }
-}
+
 
 //Custom Divider from https://stackoverflow.com/questions/56619043/show-line-separator-view-in-swiftui/56619112
 struct CustomDivider: View {
@@ -246,6 +227,8 @@ struct Card: View {
                         .aspectRatio(contentMode: .fit)
                         .frame(maxHeight: 63)
                         .padding(.trailing, 15)
+                        .padding(.leading, 15)
+                        .padding(.top, 15)
                     
                     VStack (alignment: .leading, spacing: 6) {
                         Text("Alice Smith")
@@ -257,110 +240,20 @@ struct Card: View {
                     }
                     
                     Spacer()
-                }
-                .padding(.bottom, 11)
-                
-                Text("We’re interested in your ideas and would be glad to build something bigger out of it.")
-                    .foregroundColor(.white)
-                    .font(Font.custom("ArialMT", size: 14))
-                    .lineSpacing(8)
-                    .padding(.bottom, 10)
-                
-                HStack (spacing: 13) {
-                    Image("Bitmap-1")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .cornerRadius(12)
                     
-                    VStack (spacing: 13){
-                        Image("Bitmap-2")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .cornerRadius(12)
-                        
-                        Image("Bitmap-3")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .cornerRadius(12)
+                    Button(action: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Action@*/{}/*@END_MENU_TOKEN@*/) {
+                        Image(systemName: "chevron.forward")
+                            .padding(.trailing, 20)
+                            .padding(.top, 15)
+                            .foregroundColor(.white)
                     }
                 }
-                .padding(.bottom, 16)
-                
-                CustomDivider()
-                    .padding(.bottom, 16)
-                
-                HStack {
-                    HStack (spacing: 5) {
-                        Image(systemName: "ellipsis.bubble.fill")
-                            .foregroundColor(Color("dividerColor"))
-                            .font(Font.custom("ArialMT", size: 14))
-                        
-                        Text("7 Comments")
-                            .foregroundColor(Color("dividerColor"))
-                            .font(Font.custom("ArialMT", size: 14))
-                    }
-                    
-                    Spacer()
-                    
-                    HStack (spacing: 5) {
-                        Image(systemName: "heart.fill")
-                            .foregroundColor(Color("dividerColor"))
-                            .font(Font.custom("ArialMT", size: 14))
-                        
-                        Text("49 Likes")
-                            .foregroundColor(Color("dividerColor"))
-                            .font(Font.custom("ArialMT", size: 14))
-                    }
-                    
-                    Spacer()
-                    
-                    HStack (spacing: 5) {
-                        Image(systemName: "paperplane.fill")
-                            .foregroundColor(Color("dividerColor"))
-                            .font(Font.custom("ArialMT", size: 14))
-                        
-                        Text("Share")
-                            .foregroundColor(Color("dividerColor"))
-                            .font(Font.custom("ArialMT", size: 14))
-                    }
-                }
-            }
-            .padding(.horizontal, 25)
-            .padding(.top, 25)
-            .padding(.bottom, 18)
-            
-            CustomDivider()
-            
-            HStack (spacing: 12) {
-                ZStack {
-                    Color("green")
-                        .clipShape(Circle())
-                        .frame(maxWidth: 63, maxHeight: 63)
-                    
-                    Image("profilePicFace")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(maxHeight: 22)
-                }
-                
-                HStack {
-                    TextField("Search...", text: $textFieldText)
-                    
-                    Image(systemName: "paperclip")
-                        .foregroundColor(Color("dividerColor"))
-                    
-                }
-                .textFieldStyle(CustomTextFieldStyle())
-                .frame(idealHeight: 63)
                 
                 
                 
             }
-            .padding(.horizontal, 19)
-            .padding(.top, 16)
-            
         }
-        .padding(.bottom, 25)
+        .padding(.bottom, 15)
         .background(Color("gray"))
         .cornerRadius(25)
     }
