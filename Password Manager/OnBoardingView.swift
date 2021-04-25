@@ -11,6 +11,7 @@ import Firebase
 struct OnBoardingView: View {
     
     @AppStorage("log_Status") var status = DefaultStatus.status
+    @State var user = Auth.auth().currentUser
     @StateObject var model = ModelData()
     
     var body: some View {
@@ -54,7 +55,9 @@ struct OnBoardingView: View {
                     }
                 }
             }
+            .navigationBarHidden(true)
         }
+        
         .onAppear(perform: {
             checkStatus()
         })

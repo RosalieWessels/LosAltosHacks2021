@@ -13,6 +13,7 @@ import Combine
 struct FullLoginView: View {
     
     @AppStorage("log_Status") var status = DefaultStatus.status
+    @State var user = Auth.auth().currentUser
     @StateObject var model = ModelData()
     
     var body: some View {
@@ -27,6 +28,7 @@ struct FullLoginView: View {
             }
         }
         .background(Color("backgroundColor").ignoresSafeArea())
+        .navigationBarHidden(true)
         .onAppear(perform: {
             checkStatus()
         })

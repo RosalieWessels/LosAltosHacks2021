@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Firebase
+import FirebaseFirestore
 import SwiftSpeech
 import AVFoundation
 
@@ -14,101 +15,122 @@ struct ContentView: View {
     
     @StateObject var model = ModelData()
     @State var user = Auth.auth().currentUser
+    @State var db = Firestore.firestore()
+    
     @State var spokenText = ""
     
     @State var userWantsSpoken = false
     @State var findPasswordSpoken = false
     @State var addPasswordSpoken = false
     @State var addPasswordEmail = ""
+    @State var addPasswordCompany = ""
     @State var addPasswordPassword = ""
     
+    @State var passwords = [Password(company: "startCompany", email: "startEmail", pasword: "startCompany")]
+    
     var body: some View {
-        ZStack {
-            Color("backgroundColor").ignoresSafeArea(edges: .top)
-            
-            VStack {
-                ScrollView {
-                    VStack (spacing: 0) {
-                        
-                        
-                        
-                        ScrollView (.vertical, showsIndicators: false) {
+        NavigationView {
+            ZStack {
+                Color("backgroundColor").ignoresSafeArea(edges: .top)
+                
+                VStack {
+                    ScrollView {
+                        VStack (spacing: 0) {
                             
-                            VStack (spacing: 25) {
-                                Card()
+                            
+                            
+                            ScrollView (.vertical, showsIndicators: false) {
                                 
-                                Card()
+                                VStack (spacing: 25) {
+                                    
+                                    if passwords[0].company != "startCompany" {
+                                        ForEach(passwords) { result in
+                                            Card(company: result.company, email: result.email, image: result.company)
+                                        }
+                                        
+
+                                    }
+                                    Text(spokenText)
+                                    
+                                }
                                 
-                                Text(spokenText)
+                                Button(action: model.logOut) {
+                                    Text("Log out")
+                                        .foregroundColor(.black)
+                                        .fontWeight(.heavy)
+                                }
+                                .padding()
+                                .background(Color.white)
+                                .cornerRadius(25)
+                                .shadow(radius:3)
+                                
+                                
                                 
                             }
-                            
-                            Button(action: model.logOut) {
-                                Text("Log out")
-                                    .foregroundColor(.black)
-                                    .fontWeight(.heavy)
-                            }
-                            .padding()
-                            .background(Color.white)
-                            .cornerRadius(25)
-                            .shadow(radius:3)
-                            
-                            
+                            .padding(.horizontal, 25)
+                            .padding(.top, 25)
                             
                         }
-                        .padding(.horizontal, 25)
-                        .padding(.top, 25)
-                        
                     }
-                }
-                
-                //Tab Bar
-                if userWantsSpoken == false {
-                    Button(action: {
-                        startSpeechRecognition()
-                    }) {
+                    
+                    //Tab Bar
+                    if userWantsSpoken == false {
+                        Button(action: {
+                            startSpeechRecognition()
+                        }) {
+                            HStack {
+                                Spacer()
+                                Image(systemName: "waveform.circle")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .foregroundColor(.white)
+                                    .padding(25)
+                                    .frame(maxHeight: 96)
+                                Spacer()
+                            }
+                        }
+                        .background(
+                            RoundedCorners(color: Color("gray"), tl: 12, tr: 12, bl: 0, br: 0)
+                                .edgesIgnoringSafeArea(.bottom)
+                        )
+                    }
+                    else {
                         HStack {
                             Spacer()
-                            Image(systemName: "waveform.circle")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .foregroundColor(.white)
+                            
+                            SwiftSpeech.RecordButton()
+                                .swiftSpeechRecordOnHold()
+                                .onRecognizeLatest(update: $spokenText)
+                                .onStopRecording(appendAction: interpretResults)
                                 .padding(25)
                                 .frame(maxHeight: 96)
+                            
                             Spacer()
                         }
+                        .background(
+                            RoundedCorners(color: Color("gray"), tl: 12, tr: 12, bl: 0, br: 0)
+                                .edgesIgnoringSafeArea(.bottom)
+                        )
                     }
-                    .background(
-                        RoundedCorners(color: Color("gray"), tl: 12, tr: 12, bl: 0, br: 0)
-                            .edgesIgnoringSafeArea(.bottom)
-                    )
+                    
+                    
+                    
                 }
-                else {
-                    HStack {
-                        Spacer()
-                        
-                        SwiftSpeech.RecordButton()
-                            .swiftSpeechRecordOnHold()
-                            .onRecognizeLatest(update: $spokenText)
-                            .onStopRecording(appendAction: interpretResults)
-                            .padding(25)
-                            .frame(maxHeight: 96)
-                        
-                        Spacer()
-                    }
-                    .background(
-                        RoundedCorners(color: Color("gray"), tl: 12, tr: 12, bl: 0, br: 0)
-                            .edgesIgnoringSafeArea(.bottom)
-                    )
-                }
-                
-                
                 
             }
-            
+            .navigationBarHidden(false)
+            .navigationBarTitle("EasyAccess", displayMode: .automatic)
+            .navigationBarColor(backgroundColor: .backgroundColor, titleColor: .white)
+            .navigationBarItems(trailing: NavigationLink(destination: SearchPasswordView()) {
+                Image(systemName: "magnifyingglass")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(idealHeight: 20)
+            })
         }
         .onAppear {
             SwiftSpeech.requestSpeechRecognitionAuthorization()
+            grabAllData()
         }
     }
     
@@ -143,8 +165,24 @@ struct ContentView: View {
                 speakText(voiceOutdata: "Finding your password for \(spokenText)")
             }
             
-            if addPasswordSpoken == true {
-                speakText(voiceOutdata: "What is your email address for \(spokenText)?")
+            if addPasswordSpoken == true && addPasswordEmail == "" {
+                addPasswordCompany = spokenText
+                speakText(voiceOutdata: "What is your email address for \(addPasswordCompany)?")
+                addPasswordEmail = "add Email"
+                
+            }
+            
+            else if addPasswordSpoken == true && addPasswordPassword == "" && addPasswordEmail != "" {
+                addPasswordEmail = spokenText
+                speakText(voiceOutdata: "What is your password for \(addPasswordCompany)")
+                addPasswordPassword = "add Password"
+            }
+            
+            else if addPasswordSpoken == true && addPasswordEmail != "" && addPasswordPassword != "" {
+                addPasswordPassword = spokenText
+                speakText(voiceOutdata: "All right. We are saving your new password right now.")
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+                    uploadPasswordToFirebase()                }
                 
             }
             
@@ -179,68 +217,74 @@ struct ContentView: View {
             print("audioSession properties weren't disable.")
         }
     }
-}
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
-}
-
-
-
-//Custom Divider from https://stackoverflow.com/questions/56619043/show-line-separator-view-in-swiftui/56619112
-struct CustomDivider: View {
-    let height: CGFloat = 0.5
-    let color: Color = Color("dividerColor")
-    let opacity: Double = 1
     
-    var body: some View {
-        Group {
-            Rectangle()
+    func uploadPasswordToFirebase() {
+        print(addPasswordPassword, addPasswordCompany, addPasswordEmail)
+        db.collection("\(Auth.auth().currentUser?.email ?? "")").document().setData([
+            "company": addPasswordCompany,
+            "email": addPasswordEmail,
+            "password": addPasswordPassword
+        ]) { err in
+            if let err = err {
+                print("Error writing document: \(err)")
+            } else {
+                print("Document successfully written!")
+                grabAllData()
+            }
         }
-        .frame(height: height)
-        .foregroundColor(color)
-        .opacity(opacity)
+    }
+    
+    func grabAllData() {
+        passwords = [Password(company: "startCompany", email: "startEmail", pasword: "startCompany")]
+        db.collection("\(Auth.auth().currentUser?.email ?? "")").order(by: "company", descending: false).limit(to: 10)
+            .getDocuments() { (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                } else {
+                    for document in querySnapshot!.documents {
+                        print("\(document.documentID) => \(document.data())")
+                        if let company = document.get("company") as? String {
+                            if let email = document.get("email") as? String {
+                                if let password = document.get("password") as? String {
+                                    passwords.append(Password(company: company, email: email, pasword: password))
+                                }
+                            }
+                        }
+                    }
+                    print(passwords)
+                    passwords.remove(at: 0)
+                }
+        }
+        
     }
 }
-
-
-struct CustomTextFieldStyle: TextFieldStyle {
-    func _body(configuration: TextField<Self._Label>) -> some View {
-        configuration
-            .font(Font.custom("ArialMT", size: 14))
-            .foregroundColor(.white)
-            .padding(10)
-            .background(Color("textFieldBackgroundColor"))
-            .cornerRadius(12)
-    }
-}
-
-
 
 struct Card: View {
-    @State var textFieldText : String = ""
+    @State var company : String
+    @State var email : String
+    @State var image : String
+    
     var body: some View {
         VStack {
             VStack {
                 HStack {
-                    Image("profilePic")
+                    Image(image)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(maxHeight: 63)
+                        .frame(maxHeight: 50)
                         .padding(.trailing, 15)
                         .padding(.leading, 15)
                         .padding(.top, 15)
                     
                     VStack (alignment: .leading, spacing: 6) {
-                        Text("Alice Smith")
+                        Text(company)
                             .foregroundColor(.white)
                             .font(Font.custom("Arial-BoldMT", size: 16))
-                        Text("20 April at 4:20 PM")
+                        Text(email)
                             .foregroundColor(Color("grayTextColor"))
                             .font(Font.custom("ArialMT", size: 14))
                     }
+                    .padding(.top, 15)
                     
                     Spacer()
                     
@@ -297,4 +341,60 @@ struct RoundedCorners: View {
             .fill(self.color)
         }
     }
+}
+
+struct Password: Identifiable {
+    var id = UUID()
+    var company : String
+    var email : String
+    var pasword : String
+}
+
+extension UIColor {
+
+    static let backgroundColor = UIColor(red: 34/255, green: 52/255, blue: 60/255, alpha: 1)
+    
+
+}
+
+//Added function to change Navigation Bar with code from: https://stackoverflow.com/questions/56505528/swiftui-update-navigation-bar-title-color
+struct NavigationBarModifier: ViewModifier {
+
+    var backgroundColor: UIColor?
+    var titleColor: UIColor?
+
+    init(backgroundColor: UIColor?, titleColor: UIColor?) {
+        self.backgroundColor = backgroundColor
+        let coloredAppearance = UINavigationBarAppearance()
+        coloredAppearance.configureWithTransparentBackground()
+        coloredAppearance.backgroundColor = backgroundColor
+        coloredAppearance.titleTextAttributes = [.foregroundColor: titleColor ?? .white]
+        coloredAppearance.largeTitleTextAttributes = [.foregroundColor: titleColor ?? .white]
+
+        UINavigationBar.appearance().standardAppearance = coloredAppearance
+        UINavigationBar.appearance().compactAppearance = coloredAppearance
+        UINavigationBar.appearance().scrollEdgeAppearance = coloredAppearance
+    }
+
+    func body(content: Content) -> some View {
+        ZStack{
+            content
+            VStack {
+                GeometryReader { geometry in
+                    Color(self.backgroundColor ?? .clear)
+                        .frame(height: geometry.safeAreaInsets.top)
+                        .edgesIgnoringSafeArea(.top)
+                    Spacer()
+                }
+            }
+        }
+    }
+}
+
+extension View {
+
+    func navigationBarColor(backgroundColor: UIColor?, titleColor: UIColor?) -> some View {
+        self.modifier(NavigationBarModifier(backgroundColor: backgroundColor, titleColor: titleColor))
+    }
+
 }
