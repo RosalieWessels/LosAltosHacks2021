@@ -34,44 +34,38 @@ struct ContentView: View {
                 Color("backgroundColor").ignoresSafeArea(edges: .top)
                 
                 VStack {
-                    ScrollView {
-                        VStack (spacing: 0) {
                             
+                    ScrollView (.vertical, showsIndicators: false) {
+                        
+                        VStack (spacing: 25) {
                             
-                            
-                            ScrollView (.vertical, showsIndicators: false) {
+                            if passwords[0].company != "startCompany" {
+                                ForEach(passwords) { result in
+                                    Card(company: result.company, email: result.email, image: result.company, passwordData: result)
+                                }
                                 
-                                VStack (spacing: 25) {
-                                    
-                                    if passwords[0].company != "startCompany" {
-                                        ForEach(passwords) { result in
-                                            Card(company: result.company, email: result.email, image: result.company)
-                                        }
-                                        
 
-                                    }
-                                    Text(spokenText)
-                                    
-                                }
-                                
-                                Button(action: model.logOut) {
-                                    Text("Log out")
-                                        .foregroundColor(.black)
-                                        .fontWeight(.heavy)
-                                }
-                                .padding()
-                                .background(Color.white)
-                                .cornerRadius(25)
-                                .shadow(radius:3)
-                                
-                                
-                                
                             }
-                            .padding(.horizontal, 25)
-                            .padding(.top, 25)
+                            Text(spokenText)
                             
                         }
+                        
+                        Button(action: model.logOut) {
+                            Text("Log out")
+                                .foregroundColor(.black)
+                                .fontWeight(.heavy)
+                        }
+                        .padding()
+                        .background(Color.white)
+                        .cornerRadius(25)
+                        .shadow(radius:3)
+                        
+                        
+                        
                     }
+                    .padding(.horizontal, 25)
+                    .padding(.top, 25)
+                       
                     
                     //Tab Bar
                     if userWantsSpoken == false {
@@ -121,11 +115,20 @@ struct ContentView: View {
             .navigationBarHidden(false)
             .navigationBarTitle("EasyAccess", displayMode: .automatic)
             .navigationBarColor(backgroundColor: .backgroundColor, titleColor: .white)
-            .navigationBarItems(trailing: NavigationLink(destination: SearchPasswordView()) {
-                Image(systemName: "magnifyingglass")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(idealHeight: 20)
+            .navigationBarItems(trailing: HStack (spacing: 25) {
+                NavigationLink(destination: SearchPasswordView()) {
+                     Image(systemName: "person.crop.circle.fill")
+                         .resizable()
+                         .aspectRatio(contentMode: .fit)
+                         .frame(idealHeight: 20)
+                 }
+                
+                NavigationLink(destination: SearchPasswordView()) {
+                    Image(systemName: "magnifyingglass")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(idealHeight: 20)
+                }
             })
         }
         .onAppear {
@@ -263,6 +266,7 @@ struct Card: View {
     @State var company : String
     @State var email : String
     @State var image : String
+    @State var passwordData : Password
     
     var body: some View {
         VStack {
@@ -288,7 +292,7 @@ struct Card: View {
                     
                     Spacer()
                     
-                    Button(action: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Action@*/{}/*@END_MENU_TOKEN@*/) {
+                    NavigationLink(destination: SeePasswordView(passwordData: passwordData)) {
                         Image(systemName: "chevron.forward")
                             .padding(.trailing, 20)
                             .padding(.top, 15)
