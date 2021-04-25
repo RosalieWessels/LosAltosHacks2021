@@ -61,6 +61,38 @@ struct AddNewPasswordView: View {
                     
                     SecureField("You better add a strong password..", text: $password)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
+                    
+                    if PasswordStrength.of(password: password) == .none {
+                        Text("Add password to see your score")
+                            .foregroundColor(.white)
+                    }
+                    
+                    if PasswordStrength.of(password: password) == .low {
+                        if password != "password" {
+                            Text("Terrible - cracked within a couple minutes/hours")
+                                .foregroundColor(.red)
+                        }
+                        
+                        if password == "password" {
+                            Text("Really? Password as a password?? Dumb.")
+                                .foregroundColor(.red)
+                        }
+                        
+                    }
+                    
+                    if PasswordStrength.of(password: password) == .medium {
+                        Text("Its getting a bit better... - cracked within a day")
+                            .foregroundColor(.orange)
+                    }
+                    
+                    VStack {
+                        
+                        if PasswordStrength.of(password: password) == .high {
+                            Text("AMAZING AND INDESTRUCTABLE")
+                                .foregroundColor(.green)
+                        }
+                    }
+                    
 
                 }
                 .padding(.horizontal)
@@ -84,6 +116,7 @@ struct AddNewPasswordView: View {
     }
     
     func uploadPasswordToDatabase() {
+        
         if company != "" && email != "" && password != "" {
             db.collection("\(Auth.auth().currentUser?.email ?? "")").document().setData([
                 "company": company,
@@ -105,4 +138,61 @@ struct AddNewPasswordView_Previews: PreviewProvider {
     static var previews: some View {
         AddNewPasswordView()
     }
+}
+
+
+//https://github.com/josa42/swift-simple-password-strength-checker/blob/master/Sources/SimplePasswordChecker/PasswordStrength.swift
+enum PasswordStrength {
+case none, low, medium, high
+
+  static func of(password: String) -> PasswordStrength {
+
+    let scere = scereOf(password: password)
+
+
+    switch(scere) {
+    case 0: return .none
+    case 1...2: return .low
+    case 3...4: return .medium
+    default: return .high
+    }
+  }
+
+  static func scereOf(password: String) -> Int {
+    var score = 0
+
+    // At least one lowercase letter
+    if test(password, matches: "[a-züöäß]") {
+      score += 1
+    }
+
+    // At least one uppercase
+    if test(password, matches: "[A-ZÜÖÄß]") {
+      score += 1
+    }
+
+    // At least one number
+    if test(password, matches: "[0-9]") {
+      score += 1
+    }
+
+    // At least one special character
+    if test(password, matches: "[^A-Za-z0-9üöäÜÖÄß]") {
+      score += 1
+    }
+
+    // A length of at least 8 characters
+    if password.count >= 16 {
+      score += 2
+
+    } else if password.count >= 8 {
+      score += 1
+    }
+
+    return score
+  }
+
+  static func test(_ password: String, matches: String) -> Bool {
+    return password.range(of: matches, options: .regularExpression) != nil
+  }
 }

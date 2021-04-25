@@ -16,7 +16,7 @@ struct ContentView: View {
     @StateObject var model = ModelData()
     @State var user = Auth.auth().currentUser
     @State var db = Firestore.firestore()
-    
+
     @State var spokenText = ""
     
     @State var userWantsSpoken = false
@@ -60,22 +60,8 @@ struct ContentView: View {
                                 
 
                             }
-                            Text(spokenText)
                             
                         }
-                        
-                        Button(action: model.logOut) {
-                            Text("Log out")
-                                .foregroundColor(.black)
-                                .fontWeight(.heavy)
-                        }
-                        .padding()
-                        .background(Color.white)
-                        .cornerRadius(25)
-                        .shadow(radius:3)
-                        
-                        
-                        
                     }
                     .padding(.horizontal, 25)
                     .padding(.top, 25)
@@ -109,17 +95,22 @@ struct ContentView: View {
                         )
                     }
                     else {
-                        HStack {
-                            Spacer()
+                        VStack {
+                            Text(spokenText)
+                                .foregroundColor(.white)
                             
-                            SwiftSpeech.RecordButton()
-                                .swiftSpeechRecordOnHold()
-                                .onRecognizeLatest(update: $spokenText)
-                                .onStopRecording(appendAction: interpretResults)
-                                .padding(25)
-                                .frame(maxHeight: 96)
-                            
-                            Spacer()
+                            HStack {
+                                Spacer()
+                                
+                                SwiftSpeech.RecordButton()
+                                    .swiftSpeechRecordOnHold()
+                                    .onRecognizeLatest(update: $spokenText)
+                                    .onStopRecording(appendAction: interpretResults)
+                                    .padding(25)
+                                    .frame(maxHeight: 96)
+                                
+                                Spacer()
+                            }
                         }
                         .background(
                             RoundedCorners(color: Color("gray"), tl: 12, tr: 12, bl: 0, br: 0)
