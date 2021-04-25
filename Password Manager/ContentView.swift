@@ -39,11 +39,19 @@ struct ContentView: View {
                         
                         VStack (spacing: 25) {
                             
-                            AddNewPasswordCard()
+                            HStack (spacing: 25){
+                                AddNewPasswordCard()
+                                
+                                searchCard()
+                            }
                             
-                            Image("Stuck at Home - Group Call")
+                            
+                            
+                            Image("Stuck at Home - Happy Place")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
+                                .padding(.horizontal, 60)
+                           
                             
                             if passwords[0].company != "startCompany" {
                                 ForEach(passwords) { result in
@@ -80,12 +88,18 @@ struct ContentView: View {
                         }) {
                             HStack {
                                 Spacer()
+                                Text("Press for Voice Control")
+                                    .foregroundColor(.white)
+                                    .font(Font.custom("Arial-BoldMT", size: 20))
+                                
+                                Spacer()
+                                
                                 Image(systemName: "waveform.circle")
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
                                     .foregroundColor(.white)
-                                    .padding(25)
-                                    .frame(maxHeight: 96)
+                                    .frame(maxHeight: 45)
+                                    .padding(.vertical)
                                 Spacer()
                             }
                         }
@@ -122,6 +136,15 @@ struct ContentView: View {
             .navigationBarTitle("EasyAccess", displayMode: .automatic)
             .navigationBarColor(backgroundColor: .backgroundColor, titleColor: .white)
             .navigationBarItems(trailing: HStack (spacing: 25) {
+                Button(action: {
+                    grabAllData()
+                }) {
+                    Image(systemName: "arrow.clockwise")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(idealHeight: 20)
+                }
+                
                 NavigationLink(destination: AccountView()) {
                      Image(systemName: "person.crop.circle.fill")
                          .resizable()
@@ -135,12 +158,16 @@ struct ContentView: View {
                         .aspectRatio(contentMode: .fit)
                         .frame(idealHeight: 20)
                 }
+                
+                
             })
         }
-        .onAppear {
+        .onAppear(perform: {
             SwiftSpeech.requestSpeechRecognitionAuthorization()
+            
             grabAllData()
-        }
+        })
+
     }
     
     func startSpeechRecognition() {
@@ -170,8 +197,71 @@ struct ContentView: View {
                 
             }
             
+            if spokenText == "I love Facebook" {
+                speakText(voiceOutdata: "Ew! Please stay far away from me.")
+            }
+            
+            if spokenText == "I love TickTock" || spokenText == "I love TikTok"{
+                speakText(voiceOutdata: "Good choice. Good Choice.")
+            }
+            
+            if spokenText == "No" {
+                speakText(voiceOutdata: "Boohoo. You awoke me from my beauty sleep.")
+            }
+            
+            
             if findPasswordSpoken == true {
+                var passwordsFound : [Password] = []
+                
                 speakText(voiceOutdata: "Finding your password for \(spokenText)")
+                
+                db.collection("\(Auth.auth().currentUser?.email ?? "")").whereField("company", isEqualTo: spokenText)
+                    .getDocuments() { (querySnapshot, err) in
+                        if let err = err {
+                            print("Error getting documents: \(err)")
+                        } else {
+                            for document in querySnapshot!.documents {
+                                print("\(document.documentID) => \(document.data())")
+                                if let company = document.get("company") as? String {
+                                    if let email = document.get("email") as? String {
+                                        if let password = document.get("password") as? String {
+                                            passwordsFound.append(Password(company: company, email: email, pasword: password))
+                                        }
+                                    }
+                                }
+                            }
+                            
+                            if passwordsFound.count > 1 {
+                                speakText(voiceOutdata: "We found multiple accounts.")
+                                
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+                                    
+                                    var waitTime = 0.0
+                                    for password in passwordsFound {
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + waitTime) {
+                                            let password_spelled_out =  password.pasword.map(String.init(describing:)).joined(separator: " ")
+                                            speakText(voiceOutdata: "We found a \(password.company) account with email adress \(password.email) and password \(password_spelled_out) ")
+                                            
+                                        }
+                                        waitTime += 10.0
+                                    }
+                                }
+                                
+                                
+                            }
+                            else {
+                                for password in passwordsFound {
+                                    
+                                    let password_spelled_out =  password.pasword.map(String.init(describing:)).joined(separator: " ")
+                                    
+                                    speakText(voiceOutdata: "We found a \(password.company) account with email adress \(password.email) and password \(password_spelled_out) ")
+                                }
+                            }
+                            
+                            findPasswordSpoken = false
+                        }
+                }
+                
             }
             
             if addPasswordSpoken == true && addPasswordEmail == "" {
@@ -238,6 +328,7 @@ struct ContentView: View {
                 print("Error writing document: \(err)")
             } else {
                 print("Document successfully written!")
+                addPasswordSpoken = false
                 grabAllData()
             }
         }
@@ -275,7 +366,7 @@ struct Card: View {
     @State var passwordData : Password
     
     var body: some View {
-        VStack {
+        NavigationLink(destination: SeePasswordView(passwordData: passwordData)) {
             VStack {
                 HStack {
                     Image(image)
@@ -298,15 +389,12 @@ struct Card: View {
                     
                     Spacer()
                     
-                    NavigationLink(destination: SeePasswordView(passwordData: passwordData)) {
-                        Image(systemName: "chevron.forward")
-                            .padding(.trailing, 20)
-                            .padding(.top, 15)
-                            .foregroundColor(.white)
-                    }
+                    Image(systemName: "chevron.forward")
+                        .padding(.trailing, 20)
+                        .padding(.top, 15)
+                        .foregroundColor(.white)
+                    
                 }
-                
-                
                 
             }
         }
@@ -413,22 +501,30 @@ struct AddNewPasswordCard: View {
     
     var body: some View {
         NavigationLink(destination: AddNewPasswordView()) {
-            HStack {
-                Text("Add a New Password")
-                    .foregroundColor(.white)
-                    .font(Font.custom("Arial-BoldMT", size: 16))
-                
-                Spacer()
-                
-                Image(systemName: "plus.app")
-                    .padding(.trailing, 5)
-                    .foregroundColor(.white)
-                
-            }
+            Image(systemName: "plus.app")
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .foregroundColor(.white)
+            .frame(maxHeight: 60)
         }
-        .padding(.all, 15)
-        .frame(maxWidth: .infinity)
-        .frame(minHeight: 80)
+        .padding(50)
+        .background(Color("gray"))
+        .cornerRadius(25)
+        
+    }
+}
+
+struct searchCard: View {
+    
+    var body: some View {
+        NavigationLink(destination: SearchPasswordView()) {
+            Image(systemName: "magnifyingglass")
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .foregroundColor(.white)
+            .frame(maxHeight: 60)
+        }
+        .padding(50)
         .background(Color("gray"))
         .cornerRadius(25)
         

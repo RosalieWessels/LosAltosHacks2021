@@ -50,6 +50,12 @@ struct SearchPasswordView: View {
                 
                 
                 ScrollView(.vertical, showsIndicators: false) {
+                    
+                    Image("Stuck at Home - Searching")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .padding(.horizontal, 15)
+                    
                     VStack (spacing: 25) {
                         if passwords[0].company != "startCompany" {
                             ForEach(passwords) { result in
