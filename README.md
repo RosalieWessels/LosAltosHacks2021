@@ -1,6 +1,6 @@
 # Password Manager with Accessibility features for people with poor eyesight.
 
-## Submission to LosAltosHacks2021
+## Submission to LosAltosHacks2021 - Winner in Best Securiy Hack category
 
 [Youtube Demo Video](https://www.youtube.com/watch?v=enmTwlgRP9A)
 
