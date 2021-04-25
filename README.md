@@ -1,4 +1,4 @@
-# Password Manager with Accessibility features for people with poor eyesight.
+# Password Manager with Accessibility features for the visually impaired.
 
 ## Submission to LosAltosHacks2021 - Winner in Best Securiy Hack category
 
