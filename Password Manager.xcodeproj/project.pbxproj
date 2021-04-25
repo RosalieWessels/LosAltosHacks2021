@@ -23,6 +23,7 @@
 		2035A2A0EB7AED14E449B54A /* Pods_Password_ManagerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F9E0782A56813D05E9B6D21 /* Pods_Password_ManagerTests.framework */; };
 		35938466ADAE57EBA0E2D1F7 /* Pods_Password_Manager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63764E10413F64852EAFCA1B /* Pods_Password_Manager.framework */; };
 		5CA2E9900F684BED122966B0 /* Pods_Password_Manager_Password_ManagerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91B740876E91CD2D279EA744 /* Pods_Password_Manager_Password_ManagerUITests.framework */; };
+		925A410E263501DB00B49B75 /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925A410D263501DB00B49B75 /* AccountView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +70,7 @@
 		54FF98E2DC2967438E2B756C /* Pods-Password Manager-Password ManagerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Password Manager-Password ManagerUITests.release.xcconfig"; path = "Target Support Files/Pods-Password Manager-Password ManagerUITests/Pods-Password Manager-Password ManagerUITests.release.xcconfig"; sourceTree = "<group>"; };
 		63764E10413F64852EAFCA1B /* Pods_Password_Manager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Password_Manager.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		91B740876E91CD2D279EA744 /* Pods_Password_Manager_Password_ManagerUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Password_Manager_Password_ManagerUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		925A410D263501DB00B49B75 /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		F75862E6CC2A25AF7AA97911 /* Pods-Password Manager-Password ManagerUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Password Manager-Password ManagerUITests.debug.xcconfig"; path = "Target Support Files/Pods-Password Manager-Password ManagerUITests/Pods-Password Manager-Password ManagerUITests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -133,6 +135,7 @@
 				110FE9EF26346ACB00A78B92 /* ContentView.swift */,
 				110FEAF82634E4A600A78B92 /* SearchPasswordView.swift */,
 				110FEADA2634C2E000A78B92 /* SeePasswordView.swift */,
+				925A410D263501DB00B49B75 /* AccountView.swift */,
 				110FE9F126346ACD00A78B92 /* Assets.xcassets */,
 				110FE9F626346ACD00A78B92 /* Info.plist */,
 				110FEA1B26346E5E00A78B92 /* GoogleService-Info.plist */,
@@ -439,6 +442,7 @@
 				110FEADB2634C2E000A78B92 /* SeePasswordView.swift in Sources */,
 				110FEA8226348B0F00A78B92 /* LogInView.swift in Sources */,
 				110FE9F026346ACB00A78B92 /* ContentView.swift in Sources */,
+				925A410E263501DB00B49B75 /* AccountView.swift in Sources */,
 				110FEAA526348E5200A78B92 /* OnBoardingView.swift in Sources */,
 				110FE9EE26346ACB00A78B92 /* Password_ManagerApp.swift in Sources */,
 			);
