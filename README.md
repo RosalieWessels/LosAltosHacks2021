@@ -1,6 +1,6 @@
-# Password Manager with Accessibility features for the visually impaired.
+# Password Manager w/ Accessibility features for the visually impaired.
 
-## Submission to LosAltosHacks2021 - Winner in Best Securiy Hack category
+## Submission to LosAltosHacks2021 - Winner in Best Security Hack category
 
 [Youtube Demo Video](https://www.youtube.com/watch?v=enmTwlgRP9A)
 
