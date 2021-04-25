@@ -9,11 +9,44 @@ import SwiftUI
 
 struct SeePasswordView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            HStack {
+                Text("Google:")
+                    .padding(.leading, 10)
+                    .padding(.top, 50)
+                    .font(Font .custom("ArialRoundedMTBold", size: 50))
+                    Spacer()
+            
+            
+            Spacer()
+                        
+            }
+            HStack {
+                Text("Email:")
+                    .padding(.leading, 10)
+                    .padding(.top, 50)
+                    .font(Font .custom("ArialRoundedMTBold", size: 25))
+                    Spacer()
+            
+            }
+            
+            HStack {
+                Text("Password:")
+                    .padding(.leading, 10)
+                    .padding(.top, 50)
+                    .font(Font .custom("ArialRoundedMTBold", size: 25))
+                    Spacer()
+            Spacer()
+            }
+            Spacer()
+        }
     }
 }
 
-struct SeePasswordView_Previews: PreviewProvider {
+
+
+
+struct SeePassword_Previews: PreviewProvider {
     static var previews: some View {
         SeePasswordView()
     }
