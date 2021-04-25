@@ -53,3 +53,9 @@ struct SeePasswordView: View {
         
     }
 }
+
+struct SeePasswordView_Previews: PreviewProvider {
+    static var previews: some View {
+        SeePasswordView(passwordData: Password(company: "Google", email: "23csteeg@pinewood.edu", pasword: "myNicePassword"))
+    }
+}

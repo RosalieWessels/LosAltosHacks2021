@@ -9,7 +9,17 @@ import SwiftUI
 
 struct AddNewPasswordView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ZStack {
+            Color("backgroundColor").edgesIgnoringSafeArea(.all)
+            
+            VStack {
+                Text("Add a New Password")
+                    .font(Font.system(size: 30))
+                    .foregroundColor(.white)
+                    .fontWeight(.bold)
+                    .padding(.bottom)
+            }
+        }
     }
 }
 

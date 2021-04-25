@@ -39,6 +39,12 @@ struct ContentView: View {
                         
                         VStack (spacing: 25) {
                             
+                            AddNewPasswordCard()
+                            
+                            Image("Stuck at Home - Group Call")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                            
                             if passwords[0].company != "startCompany" {
                                 ForEach(passwords) { result in
                                     Card(company: result.company, email: result.email, image: result.company, passwordData: result)
@@ -406,20 +412,25 @@ extension View {
 struct AddNewPasswordCard: View {
     
     var body: some View {
-        VStack {
-            VStack {
+        NavigationLink(destination: AddNewPasswordView()) {
+            HStack {
                 Text("Add a New Password")
+                    .foregroundColor(.white)
+                    .font(Font.custom("Arial-BoldMT", size: 16))
                 
-                NavigationLink(destination: AddNewPasswordView()) {
-                    Image(systemName: "chevron.forward")
-                        .padding(.trailing, 20)
-                        .padding(.top, 15)
-                        .foregroundColor(.white)
-                }
+                Spacer()
+                
+                Image(systemName: "plus.app")
+                    .padding(.trailing, 5)
+                    .foregroundColor(.white)
+                
             }
         }
-        .padding(.bottom, 15)
+        .padding(.all, 15)
+        .frame(maxWidth: .infinity)
+        .frame(minHeight: 80)
         .background(Color("gray"))
         .cornerRadius(25)
+        
     }
 }
