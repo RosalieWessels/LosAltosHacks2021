@@ -9,6 +9,7 @@ target 'Password Manager' do
   pod 'Firebase'
   pod 'Firebase/Auth'
   pod 'Firebase/Firestore'
+  pod 'SSSwiftUIGIFView'
 
   target 'Password ManagerTests' do
     inherit! :search_paths

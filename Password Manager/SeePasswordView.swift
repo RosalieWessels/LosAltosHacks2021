@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SSSwiftUIGIFView
 
 struct SeePasswordView: View {
     
@@ -20,8 +21,7 @@ struct SeePasswordView: View {
                     Text("Company: \(passwordData.company)")
                         .foregroundColor(.white)
                         .padding(.leading, 10)
-                        .padding(.top, 50)
-                        .font(Font .custom("ArialRoundedMTBold", size: 35))
+                        .font(Font .custom("ArialRoundedMTBold", size: 30))
                         Spacer()
                 
                 
@@ -33,7 +33,7 @@ struct SeePasswordView: View {
                         .foregroundColor(.white)
                         .padding(.leading, 10)
                         .padding(.top, 50)
-                        .font(Font .custom("ArialRoundedMTBold", size: 25))
+                        .font(Font .custom("ArialRoundedMTBold", size: 20))
                         Spacer()
                 
                 }
@@ -43,12 +43,18 @@ struct SeePasswordView: View {
                         .foregroundColor(.white)
                         .padding(.leading, 10)
                         .padding(.top, 50)
-                        .font(Font .custom("ArialRoundedMTBold", size: 25))
+                        .font(Font .custom("ArialRoundedMTBold", size: 20))
                         Spacer()
                 Spacer()
                 }
+                
+                SwiftUIGIFPlayerView(gifName: "\(passwordData.company)")
+                    .cornerRadius(25)
+                    
+                
                 Spacer()
             }
+            .padding()
         }
         
     }

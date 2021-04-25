@@ -59,7 +59,7 @@ struct SearchPasswordView: View {
                     VStack (spacing: 25) {
                         if passwords[0].company != "startCompany" {
                             ForEach(passwords) { result in
-                                SearchCard(passwordData: result)
+                                SearchCard(passwordData: result, imageName: result.company)
                             }
                             
 
@@ -134,19 +134,13 @@ struct SearchPasswordView_Previews: PreviewProvider {
 
 struct SearchCard: View {
     @State var passwordData : Password
+    @State var imageName : String
     
     var body: some View {
         VStack {
             VStack {
+                
                 HStack {
-                    Image(passwordData.company)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(maxHeight: 50)
-                        .padding(.trailing, 15)
-                        .padding(.leading, 15)
-                        .padding(.top, 15)
-                    
                     VStack (alignment: .leading, spacing: 6) {
                         Text(passwordData.company)
                             .foregroundColor(.white)
@@ -158,9 +152,9 @@ struct SearchCard: View {
                     .padding(.top, 15)
                     
                     Spacer()
-                    
                 }
-                .frame(maxWidth: .infinity)
+                .padding(.horizontal, 15)
+                
                 
                 HStack {
                     Text("Password: '\(passwordData.pasword)'")
@@ -169,7 +163,6 @@ struct SearchCard: View {
                     Spacer()
                 }
                 .padding(.horizontal, 15)
-                .padding(.top)
             }
         }
         .padding(.bottom, 15)

@@ -96,8 +96,8 @@ struct ContentView: View {
                     }
                     else {
                         VStack {
-                            Text(spokenText)
-                                .foregroundColor(.white)
+//                            Text(spokenText)
+//                                .foregroundColor(.white)
                             
                             HStack {
                                 Spacer()
