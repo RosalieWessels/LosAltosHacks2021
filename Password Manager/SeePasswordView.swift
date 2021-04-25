@@ -21,7 +21,7 @@ struct SeePasswordView: View {
                         .foregroundColor(.white)
                         .padding(.leading, 10)
                         .padding(.top, 50)
-                        .font(Font .custom("ArialRoundedMTBold", size: 50))
+                        .font(Font .custom("ArialRoundedMTBold", size: 35))
                         Spacer()
                 
                 
@@ -29,7 +29,7 @@ struct SeePasswordView: View {
                             
                 }
                 HStack {
-                    Text("Email: '\(passwordData.email)'")
+                    Text("Email: \n'\(passwordData.email)'")
                         .foregroundColor(.white)
                         .padding(.leading, 10)
                         .padding(.top, 50)
@@ -39,7 +39,7 @@ struct SeePasswordView: View {
                 }
                 
                 HStack {
-                    Text("Password: '\(passwordData.pasword)'")
+                    Text("Password: \n'\(passwordData.pasword)'")
                         .foregroundColor(.white)
                         .padding(.leading, 10)
                         .padding(.top, 50)

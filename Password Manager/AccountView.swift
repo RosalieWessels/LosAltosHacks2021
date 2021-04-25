@@ -18,7 +18,8 @@ struct AccountView: View {
                     Text("Your Account:")
                         .padding(.leading, 10)
                         .padding(.top, 50)
-                        .font(Font .custom("ArialRoundedMTBold", size: 50))
+                        .font(Font .custom("ArialRoundedMTBold", size: 35))
+                        .foregroundColor(.white)
                         Spacer()
                 
                 
@@ -30,6 +31,7 @@ struct AccountView: View {
                         .padding(.leading, 10)
                         .padding(.top, 50)
                         .font(Font .custom("ArialRoundedMTBold", size: 25))
+                        .foregroundColor(.white)
                         Spacer()
                 
                 }
@@ -39,6 +41,7 @@ struct AccountView: View {
                         .padding(.leading, 10)
                         .padding(.top, 50)
                         .font(Font .custom("ArialRoundedMTBold", size: 25))
+                        .foregroundColor(.white)
                         Spacer()
                 Spacer()
                 }
