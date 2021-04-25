@@ -116,7 +116,7 @@ struct ContentView: View {
             .navigationBarTitle("EasyAccess", displayMode: .automatic)
             .navigationBarColor(backgroundColor: .backgroundColor, titleColor: .white)
             .navigationBarItems(trailing: HStack (spacing: 25) {
-                NavigationLink(destination: SearchPasswordView()) {
+                NavigationLink(destination: AccountView()) {
                      Image(systemName: "person.crop.circle.fill")
                          .resizable()
                          .aspectRatio(contentMode: .fit)
@@ -401,4 +401,25 @@ extension View {
         self.modifier(NavigationBarModifier(backgroundColor: backgroundColor, titleColor: titleColor))
     }
 
+}
+
+struct AddNewPasswordCard: View {
+    
+    var body: some View {
+        VStack {
+            VStack {
+                Text("Add a New Password")
+                
+                NavigationLink(destination: AddNewPasswordView()) {
+                    Image(systemName: "chevron.forward")
+                        .padding(.trailing, 20)
+                        .padding(.top, 15)
+                        .foregroundColor(.white)
+                }
+            }
+        }
+        .padding(.bottom, 15)
+        .background(Color("gray"))
+        .cornerRadius(25)
+    }
 }
